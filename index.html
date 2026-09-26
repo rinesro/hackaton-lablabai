@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxium Travels | Onboarding Guide</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0d1117;
+    --surface:  #161b22;
+    --surface2: #1c2128;
+    --border:   #30363d;
+    --text:     #e6edf3;
+    --muted:    #8b949e;
+    --accent:   #58a6ff;
+    --accent2:  #bc8cff;
+    --green:    #3fb950;
+    --orange:   #d29922;
+    --red:      #f85149;
+    --radius:   8px;
+    --font:     -apple-system, "Segoe UI", system-ui, sans-serif;
+    --mono:     "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  .site-header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1a1040 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 40%, rgba(88,166,255,.07) 0%, transparent 50%),
+      radial-gradient(circle at 80% 60%, rgba(188,140,255,.07) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .site-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .site-header p {
+    color: var(--muted);
+    margin-top: 6px;
+    font-size: 0.95rem;
+    position: relative;
+  }
+
+  /* ── Tabs ────────────────────────────────────── */
+  .tabs-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 14px 22px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font: 0.875rem/1 var(--font);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab-btn .tab-icon { font-size: 1rem; }
+
+  /* ── Content area ────────────────────────────── */
+  .tab-panel { display: none; padding: 40px 24px 80px; max-width: 900px; margin: 0 auto; }
+  .tab-panel.active { display: block; }
+
+  /* ── Markdown rendered styles ────────────────── */
+  .md h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .md h2 { font-size: 1.25rem; font-weight: 600; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .md h3 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 8px; color: var(--accent2); }
+  .md h4 { font-size: 0.95rem; font-weight: 600; margin: 16px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+  .md p { margin-bottom: 12px; }
+  .md ul, .md ol { padding-left: 22px; margin-bottom: 12px; }
+  .md li { margin-bottom: 5px; }
+  .md li > ul, .md li > ol { margin-top: 4px; margin-bottom: 4px; }
+
+  .md a { color: var(--accent); text-decoration: none; }
+  .md a:hover { text-decoration: underline; }
+
+  .md strong { color: var(--text); font-weight: 600; }
+  .md em { color: var(--muted); }
+
+  .md hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  .md code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: #f78166;
+  }
+
+  .md pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 14px 0 20px;
+    position: relative;
+  }
+  .md pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #e6edf3;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* ── Tables ──────────────────────────────────── */
+  .md table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: 0.9rem;
+  }
+  .md th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .md td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .md tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+
+  /* ── Blockquote ──────────────────────────────── */
+  .md blockquote {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 16px;
+    margin: 14px 0;
+    background: rgba(188,140,255,.05);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--muted);
+  }
+
+  /* ── Difficulty badges ───────────────────────── */
+  .md p:has(strong:first-child) { line-height: 1.8; }
+
+  /* ── Mermaid diagrams ────────────────────────── */
+  .mermaid-wrapper {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin: 18px 0 28px;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .mermaid-wrapper .mermaid { display: inline-block; }
+
+  /* Mermaid dark overrides */
+  .mermaid svg { background: transparent !important; max-width: 100%; }
+
+  /* ── Footer ──────────────────────────────────── */
+  .site-footer {
+    text-align: center;
+    padding: 22px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.4rem; }
+    .tab-btn { padding: 12px 14px; font-size: 0.8rem; }
+    .tab-panel { padding: 28px 16px 60px; }
+    .md h1 { font-size: 1.4rem; }
+    .md h2 { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>🚀 Galaxium Travels</h1>
+  <p>Onboarding Guide — Architecture · Diagrams · Setup · Starter Tasks</p>
+</header>
+
+<nav class="tabs-bar" role="tablist">
+  <button class="tab-btn active" role="tab" data-tab="architecture" aria-selected="true">
+    <span class="tab-icon">🏗️</span> Architecture
+  </button>
+  <button class="tab-btn" role="tab" data-tab="diagrams" aria-selected="false">
+    <span class="tab-icon">📐</span> Diagrams
+  </button>
+  <button class="tab-btn" role="tab" data-tab="setup" aria-selected="false">
+    <span class="tab-icon">⚙️</span> Setup Guide
+  </button>
+  <button class="tab-btn" role="tab" data-tab="tasks" aria-selected="false">
+    <span class="tab-icon">✅</span> Starter Tasks
+  </button>
+</nav>
+
+<main>
+  <section class="tab-panel active" id="panel-architecture" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-diagrams" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-setup" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-tasks" role="tabpanel"></section>
+</main>
+
+<footer class="site-footer">
+  Generated by IBM Bob &middot; Galaxium Travels
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Markdown source strings — injected by scripts/build-site.js
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DOCS = {};
+
+DOCS.architecture = `# Architecture — Galaxium Travels
+
+## Purpose
+
+Galaxium Travels is a full-stack interplanetary booking system that allows users to search, filter, and book space travel flights between destinations (Earth, Mars, Moon, Venus, Jupiter, Europa, Pluto). It demonstrates modern full-stack development practices with a React frontend and FastAPI backend, supporting type-safe operations and dual protocol support (REST + MCP for AI agents). It is IBM Bob's primary tutorial and demo application.
+
+## Tech Stack
+
+| Layer | Technology | Notes |
+|---|---|---|
+| **Frontend UI** | React 18 | Component-based SPA with hooks |
+| **Frontend Language** | TypeScript | Type-safe frontend development |
+| **Frontend Build** | Vite | Fast dev server and production bundling |
+| **Frontend Styling** | Tailwind CSS + Framer Motion | Utility-first CSS with animations (starfield) |
+| **Frontend HTTP** | Axios | Promise-based HTTP client for API calls |
+| **Frontend Routing** | React Router | Client-side navigation between pages |
+| **Frontend Notifications** | React Hot Toast | Toast notifications for user feedback |
+| **Backend Framework** | FastAPI | Async Python web framework with auto-generated docs |
+| **Backend Validation** | Pydantic | Data validation and serialization |
+| **Backend ORM** | SQLAlchemy | Object-relational mapper for database operations |
+| **Backend AI Protocol** | FastMCP | Model Context Protocol support for AI agents |
+| **Backend Server** | Uvicorn | ASGI server for FastAPI |
+| **Database** | SQLite | Lightweight file-based SQL database with seed data |
+| **Runtime** | Python 3.8+ | Async/await support |
+
+## Key Components
+
+### Frontend
+
+1. **Pages** (\`src/pages/\`)
+   - \`Home.tsx\` — Landing page with space-themed hero section
+   - \`Flights.tsx\` — Flight search and browse interface with filtering
+   - \`MyBookings.tsx\` — User booking history and cancellation management
+
+2. **Components** (\`src/components/\`)
+   - **Layout** — \`Header\`, \`Footer\`, \`Layout\` wrapper (navigation and page structure)
+   - **Flights** — \`FlightCard\` displays individual flight details with "Book Now" action
+   - **Bookings** — \`BookingCard\` shows booking details; \`BookingModal\` handles confirmation flow
+   - **User** — \`UserIdentification\` component for name/email login
+   - **Common** — Reusable \`Button\`, \`Card\`, \`Input\`, \`Modal\`, \`LoadingSpinner\`, \`Starfield\`
+
+3. **Services & Utilities**
+   - \`services/api.ts\` — Axios client wrapping all REST API calls
+   - \`types/index.ts\` — TypeScript definitions for User, Flight, Booking entities
+   - \`hooks/useUser.tsx\` — Custom hook for user state management (login, logout, persist)
+   - \`utils/formatters.ts\` — Date/time, duration, and currency formatting helpers
+
+### Backend
+
+1. **Service Modules** (\`services/\`)
+   - \`flight.py\` — \`list_flights()\` retrieves all available flights
+   - \`booking.py\` — \`book_flight()\`, \`cancel_booking()\`, \`get_bookings()\` for booking lifecycle
+   - \`user.py\` — \`register_user()\` creates new users with email uniqueness check
+
+2. **Database Layer**
+   - \`db.py\` — SQLAlchemy session management (\`SessionLocal\`, \`get_db\`), \`init_db()\`
+   - \`models.py\` — ORM model definitions (User, Flight, Booking)
+   - \`seed.py\` — Pre-populates the database with demo data on startup
+
+3. **Validation Layer** (\`schemas.py\`)
+   - \`FlightOut\`, \`BookingOut\`, \`UserOut\` — Response schemas
+   - \`BookingRequest\`, \`UserRegistration\` — Input validation schemas
+   - \`ErrorResponse\` — Standardized error format
+
+4. **API Server** (\`server.py\`)
+   - REST endpoints: \`GET /flights\`, \`POST /book\`, \`GET /bookings/{user_id}\`, \`POST /cancel/{booking_id}\`, \`POST /register\`, \`GET /user\`, \`GET /\`
+   - MCP tools: equivalent functions exposed for AI agent protocols via FastMCP
+   - CORS middleware for cross-origin requests from the frontend
+
+### Database Models
+
+Three core SQLAlchemy ORM models defined in \`models.py\`:
+
+| Model | Key Fields |
+|---|---|
+| **User** | \`user_id\` (PK), \`name\`, \`email\` (unique) |
+| **Flight** | \`flight_id\` (PK), \`origin\`, \`destination\`, \`departure_time\`, \`arrival_time\`, \`price\`, \`seats_available\` |
+| **Booking** | \`booking_id\` (PK), \`user_id\` (FK→User), \`flight_id\` (FK→Flight), \`status\`, \`booking_time\` |
+
+## Folder Structure
+
+\`\`\`
+galaxium-travels/
+├── booking_system_backend/          # FastAPI + SQLAlchemy backend (Python)
+│   ├── server.py                    # Entry point: REST routes + MCP tools
+│   ├── models.py                    # SQLAlchemy ORM: User, Flight, Booking
+│   ├── schemas.py                   # Pydantic validation schemas
+│   ├── db.py                        # Session management + init_db
+│   ├── seed.py                      # Demo data seeder
+│   ├── requirements.txt             # Python dependencies
+│   ├── pytest.ini                   # Test configuration
+│   ├── Dockerfile                   # Container image
+│   ├── services/                    # Business logic layer
+│   │   ├── flight.py                # list_flights()
+│   │   ├── booking.py               # book_flight(), cancel_booking(), get_bookings()
+│   │   └── user.py                  # register_user()
+│   └── tests/                       # pytest test suite
+│       ├── test_services.py
+│       ├── test_rest.py
+│       └── conftest.py
+│
+├── booking_system_frontend/         # React 18 + TypeScript SPA
+│   ├── src/
+│   │   ├── main.tsx                 # React entry point
+│   │   ├── App.tsx                  # Root component + routing
+│   │   ├── pages/
+│   │   │   ├── Home.tsx             # Landing page
+│   │   │   ├── Flights.tsx          # Flight search/browse
+│   │   │   └── MyBookings.tsx       # Booking management
+│   │   ├── components/
+│   │   │   ├── layout/              # Header, Footer, Layout
+│   │   │   ├── flights/             # FlightCard
+│   │   │   ├── bookings/            # BookingCard, BookingModal
+│   │   │   ├── user/                # UserIdentification
+│   │   │   └── common/              # Button, Card, Input, Modal, LoadingSpinner, Starfield
+│   │   ├── services/api.ts          # Axios HTTP client wrapper
+│   │   ├── hooks/useUser.tsx        # User state hook
+│   │   ├── types/index.ts           # TypeScript entity definitions
+│   │   └── utils/formatters.ts     # Date/currency formatting
+│   ├── package.json
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   └── Dockerfile
+│
+├── start.sh                         # Unix/Mac one-command startup
+├── start.bat                        # Windows one-command startup
+├── AGENTS.md                        # Agent context (Bob)
+└── README.md
+\`\`\`
+
+## Data Flow
+
+### Booking a Flight (Happy Path)
+
+1. **Browse** — User opens \`/flights\`. Frontend calls \`GET /flights\`; backend queries all \`Flight\` rows and returns them as \`FlightOut[]\`.
+2. **Identify** — User clicks "Book Now". If no cached user, \`UserIdentification\` component collects name + email and calls \`POST /register\`; backend upserts a \`User\` row and returns \`user_id\`.
+3. **Confirm** — \`BookingModal\` shows flight details. User confirms; frontend calls \`POST /book\` with \`{ user_id, flight_id }\`.
+4. **Persist** — Backend \`book_flight()\` service validates seats available, creates a \`Booking\` row (status=\`confirmed\`), decrements \`seats_available\` on the \`Flight\` row, and commits the transaction.
+5. **Feedback** — Backend returns \`BookingOut\`. Frontend shows a toast notification and the booking appears on \`MyBookings\`.
+
+### Cancellation
+
+1. User opens \`MyBookings\` → frontend calls \`GET /bookings/{user_id}\`.
+2. User clicks "Cancel" → frontend calls \`POST /cancel/{booking_id}\`.
+3. Backend sets booking \`status=cancelled\` and increments \`seats_available\` on the flight.
+4. Frontend updates the booking list in place.
+`;
+
+DOCS.diagrams = `# Diagrams — Galaxium Travels
+
+## Diagram 1 — Class Diagram
+
+Domain models and their relationships, derived from \`booking_system_backend/models.py\`.
+
+\`\`\`mermaid
+classDiagram
+    class User {
+        int user_id
+        string name
+        string email
+    }
+
+    class Flight {
+        int flight_id
+        string origin
+        string destination
+        string departure_time
+        string arrival_time
+        int price
+        int seats_available
+    }
+
+    class Booking {
+        int booking_id
+        int user_id
+        int flight_id
+        string status
+        string booking_time
+    }
+
+    User "1" --> "0..*" Booking : has
+    Flight "1" --> "0..*" Booking : reserved via
+\`\`\`
+
+## Diagram 2 — Sequence Diagram
+
+Main user booking flow: browse → identify → book → view → cancel.
+
+\`\`\`mermaid
+sequenceDiagram
+    actor U as User (Browser)
+    participant FE as React Frontend
+    participant BE as FastAPI Backend
+    participant DB as SQLite DB
+
+    U->>FE: Navigate to /flights
+    FE->>BE: GET /flights
+    BE->>DB: SELECT * FROM flights
+    DB-->>BE: Flight rows
+    BE-->>FE: FlightOut[]
+    FE-->>U: Render flight cards
+
+    U->>FE: Click "Book Now" (new user)
+    FE->>BE: POST /register {name, email}
+    BE->>DB: INSERT INTO users
+    DB-->>BE: user_id
+    BE-->>FE: UserOut {user_id}
+
+    U->>FE: Confirm booking in modal
+    FE->>BE: POST /book {user_id, flight_id}
+    BE->>DB: Check seats_available > 0
+    DB-->>BE: Flight row
+    BE->>DB: INSERT INTO bookings
+    BE->>DB: UPDATE flights SET seats_available - 1
+    DB-->>BE: booking_id
+    BE-->>FE: BookingOut {booking_id, status}
+    FE-->>U: Toast: "Booking confirmed!"
+
+    U->>FE: Navigate to /my-bookings
+    FE->>BE: GET /bookings/{user_id}
+    BE->>DB: SELECT bookings JOIN flights WHERE user_id
+    DB-->>BE: Booking + Flight rows
+    BE-->>FE: BookingOut[]
+    FE-->>U: Render booking cards
+
+    U->>FE: Click "Cancel"
+    FE->>BE: POST /cancel/{booking_id}
+    BE->>DB: UPDATE bookings SET status = cancelled
+    BE->>DB: UPDATE flights SET seats_available + 1
+    DB-->>BE: OK
+    BE-->>FE: BookingOut {status: cancelled}
+    FE-->>U: Booking marked as cancelled
+\`\`\`
+`;
+
+DOCS.setup = `# Setup Guide — Galaxium Travels
+
+Step-by-step first-run guide for the Galaxium Travels interplanetary booking system.
+
+---
+
+## Prerequisites
+
+| Requirement | Minimum Version | Check |
+|---|---|---|
+| Python | 3.8+ | \`python --version\` |
+| Node.js | 18+ | \`node --version\` |
+| npm | (bundled with Node) | \`npm --version\` |
+| Git | any recent | \`git --version\` |
+
+Download links: [Python](https://www.python.org/downloads/) · [Node.js](https://nodejs.org/) · [Git](https://git-scm.com/)
+
+On **Windows**, ensure Python is added to \`PATH\` during installation.
+
+---
+
+## 1. Clone the Repository
+
+\`\`\`bash
+git clone -b bob-learning-path-branch https://github.com/IBM/galaxium-travels
+cd galaxium-travels
+\`\`\`
+
+The \`-b bob-learning-path-branch\` flag checks out the tutorial branch used with IBM Bob.
+
+---
+
+## 2. Backend Setup
+
+The backend is a **FastAPI** application that runs on port **8080**.
+
+### 2.1 Create a Python virtual environment
+
+**macOS / Linux:**
+\`\`\`bash
+cd booking_system_backend
+python3 -m venv .venv
+source .venv/bin/activate
+\`\`\`
+
+**Windows:**
+\`\`\`bash
+cd booking_system_backend
+python -m venv .venv
+.venv\\Scripts\\activate
+\`\`\`
+
+Your prompt should now show \`(.venv)\`.
+
+### 2.2 Install Python dependencies
+
+\`\`\`bash
+pip install -r requirements.txt
+\`\`\`
+
+Key packages installed: \`fastapi\`, \`uvicorn\`, \`sqlalchemy\`, \`pydantic\`, \`fastmcp\`, \`pytest\`.
+
+### 2.3 Environment variables
+
+No environment file is required for the backend. The SQLite database (\`booking.db\`) is created automatically in the \`booking_system_backend/\` directory on first run and seeded with demo data.
+
+---
+
+## 3. Frontend Setup
+
+The frontend is a **React 18 + TypeScript + Vite** SPA that runs on port **5173**.
+
+### 3.1 Install Node dependencies
+
+Open a **new terminal** from the repo root:
+
+\`\`\`bash
+cd booking_system_frontend
+npm install
+\`\`\`
+
+### 3.2 Configure the API URL
+
+Create (or verify) the \`.env\` file in \`booking_system_frontend/\`:
+
+\`\`\`bash
+# macOS / Linux
+echo "VITE_API_URL=http://localhost:8080" > .env
+
+# Windows PowerShell
+Set-Content .env "VITE_API_URL=http://localhost:8080"
+\`\`\`
+
+The file should contain:
+\`\`\`env
+VITE_API_URL=http://localhost:8080
+\`\`\`
+
+If deploying to a remote server, replace \`http://localhost:8080\` with your backend URL.
+
+---
+
+## 4. Run the Application
+
+### Option A — Quick start (recommended)
+
+From the **repo root**:
+
+**macOS / Linux:**
+\`\`\`bash
+./start.sh
+\`\`\`
+
+**Windows:**
+\`\`\`bash
+start.bat
+\`\`\`
+
+The script installs dependencies (if missing), starts the backend on \`:8080\`, and starts the frontend dev server on \`:5173\` in separate terminal windows.
+
+### Option B — Manual start
+
+You need **two terminals** running simultaneously.
+
+**Terminal 1 — Backend:**
+\`\`\`bash
+cd booking_system_backend
+source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
+python server.py
+\`\`\`
+
+**Terminal 2 — Frontend:**
+\`\`\`bash
+cd booking_system_frontend
+npm run dev
+\`\`\`
+
+---
+
+## 5. Verify It Works
+
+Once both servers are running, open these URLs:
+
+| URL | What you should see |
+|---|---|
+| http://localhost:5173 | Space-themed UI with animated starfield background |
+| http://localhost:5173/flights | Grid of sample flights (Earth→Mars, Moon, Venus, etc.) |
+| http://localhost:8080 | JSON health-check response from the API |
+| http://localhost:8080/docs | Interactive Swagger UI listing all REST endpoints |
+| http://localhost:8080/mcp | MCP protocol endpoint (for AI agent use) |
+
+**Quick smoke test:**
+1. Open http://localhost:5173/flights
+2. Click **"Book Now"** on any flight
+3. Enter a name and email (e.g., \`Alice\` / \`alice@example.com\`)
+4. Confirm the booking — a toast notification should appear
+5. Navigate to **"My Bookings"** — your reservation should be listed
+
+The database is pre-seeded with 10 users, 10 flights, and 20 sample bookings.
+
+---
+
+## Troubleshooting
+
+### Backend won't start
+
+| Symptom | Fix |
+|---|---|
+| \`python: command not found\` | Install Python 3.8+ and ensure it is on PATH |
+| \`ModuleNotFoundError: No module named 'fastapi'\` | Activate the venv: \`source .venv/bin/activate\` then \`pip install -r requirements.txt\` |
+| \`Address already in use\` on port 8080 | Kill the conflicting process: \`lsof -i :8080\` (mac/linux) or \`netstat -ano \\| findstr :8080\` (windows), then \`kill <PID>\` |
+
+### Frontend won't start
+
+| Symptom | Fix |
+|---|---|
+| \`node: command not found\` | Install Node.js 18+ |
+| Port 5173 already in use | Kill process on 5173 or run \`npm run dev -- --port 5174\` |
+| \`npm ERR! code ENOENT\` | Delete \`node_modules\` and reinstall: \`rm -rf node_modules && npm install\` |
+
+### Connection / data issues
+
+| Symptom | Fix |
+|---|---|
+| "Failed to fetch" errors in the UI | Confirm backend is running on \`:8080\`; check \`VITE_API_URL\` in \`.env\` |
+| CORS error in browser console | Restart backend; verify \`VITE_API_URL\` matches the actual backend address |
+| Blank or corrupt data | Delete \`booking.db\` (\`booking_system_backend/booking.db\`) and restart the backend — it will re-seed |
+
+---
+
+## Running Tests
+
+\`\`\`bash
+cd booking_system_backend
+pytest
+\`\`\`
+
+To also type-check and build the frontend:
+
+\`\`\`bash
+cd booking_system_frontend
+npm run build
+\`\`\`
+`;
+
+DOCS.tasks = `# Starter Tasks — Galaxium Travels
+
+Five suggested first tickets for a new contributor. Tasks span both frontend and backend, range from Easy to Medium, and point to the exact files you will need to touch.
+
+---
+
+### Task 1: Add a Logout Button to the Header
+**Difficulty:** Easy  
+**Why it's a good first task:** The logout function already exists inside \`useUser.tsx\` — you only need to add the UI button. You'll learn how the custom hook pattern works and practice conditional rendering inside a shared layout component.
+
+**Files to touch:**
+- \`booking_system_frontend/src/components/layout/Header.tsx\` — add the logout button, conditionally rendered when a user is signed in
+- \`booking_system_frontend/src/hooks/useUser.tsx\` — read-only reference; contains the \`logout()\` method you will call
+
+**What to do:**
+- Import \`useUser\` at the top of \`Header.tsx\`
+- Destructure \`const { user, logout } = useUser()\`
+- Render a "Sign out" button only when \`user !== null\`
+- On click, call \`logout()\` (it clears the user from context and localStorage)
+- Optionally call \`useNavigate()\` to redirect to \`/\` after logout
+- Style using the existing \`Button\` component with \`variant="secondary"\` to match the header palette
+
+---
+
+### Task 2: Show a Low-Seats Warning Badge on FlightCard
+**Difficulty:** Easy  
+**Why it's a good first task:** The component already computes \`isLowSeats\` — you are purely enhancing the UI. Good exercise in Tailwind conditional classes and Framer Motion animations.
+
+**Files to touch:**
+- \`booking_system_frontend/src/components/flights/FlightCard.tsx\` — add a visual alert badge when \`isLowSeats\` is true (the boolean is computed near the top of the component)
+
+**What to do:**
+- Locate the \`isLowSeats\` variable (already set to \`true\` when \`seats_available <= 2\`)
+- Above the "Book Now" button, add a badge element rendered only when \`isLowSeats === true\`
+- Show text like \`"Only {flight.seats_available} seat(s) left!"\`
+- Import \`AlertCircle\` from \`lucide-react\` and place it inline with the text
+- Add a gentle Framer Motion pulse: \`animate={{ opacity: [1, 0.5, 1] }}\` with \`transition={{ repeat: Infinity, duration: 2 }}\`
+- Use \`text-orange-400\` or the existing \`solar-orange\` theme colour for visual urgency
+
+---
+
+### Task 3: Add Price-Range Filtering to the Flights Page
+**Difficulty:** Medium  
+**Why it's a good first task:** The filter section in \`Flights.tsx\` already exists — you extend it with two numeric inputs. Good exercise in controlled inputs, derived state, and array filtering.
+
+**Files to touch:**
+- \`booking_system_frontend/src/pages/Flights.tsx\` — add \`minPrice\` / \`maxPrice\` state and filter logic (the existing search filter lives here and shows the pattern to follow)
+- \`booking_system_frontend/src/utils/formatters.ts\` — read-only reference; \`formatCurrency()\` is useful for display labels
+
+**What to do:**
+- Add two state variables: \`const [minPrice, setMinPrice] = useState<number | undefined>()\`; same for \`maxPrice\`
+- Inside the filter card, add two side-by-side \`<input type="number">\` fields with placeholder text "Min $" and "Max $"
+- Extend the existing \`filteredFlights\` derivation to also check: \`flight.price >= (minPrice ?? 0) && flight.price <= (maxPrice ?? Infinity)\`
+- Add a "Clear filters" link/button that resets both states to \`undefined\`
+- Display a results count ("Showing N of M flights") below the filter row
+
+---
+
+### Task 4: Add an API Endpoint for Booking Statistics
+**Difficulty:** Medium  
+**Why it's a good first task:** Follows the exact same pattern as every other endpoint in \`server.py\` (route → service function → DB query). Good introduction to SQLAlchemy aggregation queries and Pydantic response models.
+
+**Files to touch:**
+- \`booking_system_backend/schemas.py\` — add a \`BookingStatistics\` Pydantic response model
+- \`booking_system_backend/services/booking.py\` — add a \`get_booking_statistics(db)\` function
+- \`booking_system_backend/server.py\` — add a \`GET /stats/bookings\` route that calls the new service function
+
+**What to do:**
+- In \`schemas.py\`, define:
+  \`\`\`python
+  class BookingStatistics(BaseModel):
+      total_bookings: int
+      active_bookings: int
+      cancelled_bookings: int
+      total_revenue: int
+  \`\`\`
+- In \`services/booking.py\`, query \`Booking\` rows grouped by status and join \`Flight\` for price; return counts and sum of prices for active bookings
+- In \`server.py\`, add \`@app.get("/stats/bookings", response_model=BookingStatistics)\` wired to the new service function
+- Verify by opening http://localhost:8080/docs and using the "Try it out" button on the new endpoint
+
+---
+
+### Task 5: Display Flight Duration on FlightCard
+**Difficulty:** Easy–Medium  
+**Why it's a good first task:** Pure UI work using an existing utility function. Teaches you how utility helpers are consumed in components and gives you a feel for the type definitions.
+
+**Files to touch:**
+- \`booking_system_frontend/src/components/flights/FlightCard.tsx\` — call \`calculateDuration()\` and render the result alongside departure/arrival times
+- \`booking_system_frontend/src/utils/formatters.ts\` — read-only reference; \`calculateDuration(departure, arrival)\` already exists and returns a formatted string like "14h 30m"
+
+**What to do:**
+- Import \`calculateDuration\` from \`../../utils/formatters\`
+- Call it inside the component: \`const duration = calculateDuration(flight.departure_time, flight.arrival_time)\`
+- Render the duration between the departure and arrival time rows, e.g., \`"✈ 14h 30m"\` with a small plane icon from \`lucide-react\`
+- Align it centrally between the origin and destination columns to match the existing layout
+- Confirm the display looks correct with the pre-seeded flights (Earth→Mars is notably long)
+
+---
+
+## How to Pick Your First Task
+
+| If you prefer… | Start with |
+|---|---|
+| Pure UI / component work | Task 2 or Task 5 |
+| State management & filtering | Task 3 |
+| Auth / user flows | Task 1 |
+| Backend / API work | Task 4 |
+
+**General workflow:**
+1. Run the app locally (\`./start.sh\` or manual start — see \`docs/setup.md\`)
+2. Read the files listed in your chosen task before touching anything
+3. Make the change in small commits
+4. Validate: \`npm run build\` for frontend changes, \`pytest\` for backend changes
+`;
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rendering
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Configure marked
+marked.setOptions({ gfm: true, breaks: false });
+
+// Configure Mermaid with a dark theme
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark',
+  darkMode: true,
+  themeVariables: {
+    primaryColor: '#1c2128',
+    primaryTextColor: '#e6edf3',
+    primaryBorderColor: '#58a6ff',
+    lineColor: '#8b949e',
+    secondaryColor: '#161b22',
+    tertiaryColor: '#0d1117',
+    background: '#0d1117',
+    mainBkg: '#1c2128',
+    nodeBorder: '#30363d',
+    clusterBkg: '#161b22',
+    titleColor: '#e6edf3',
+    edgeLabelBackground: '#161b22',
+    actorBkg: '#1c2128',
+    actorBorder: '#58a6ff',
+    actorTextColor: '#e6edf3',
+    actorLineColor: '#8b949e',
+    signalColor: '#8b949e',
+    signalTextColor: '#e6edf3',
+    labelBoxBkgColor: '#1c2128',
+    labelBoxBorderColor: '#30363d',
+    labelTextColor: '#e6edf3',
+    loopTextColor: '#e6edf3',
+    noteBorderColor: '#30363d',
+    noteBkgColor: '#161b22',
+    noteTextColor: '#e6edf3',
+    activationBorderColor: '#58a6ff',
+    activationBkgColor: '#1c2128',
+    sequenceNumberColor: '#58a6ff',
+    classText: '#e6edf3',
+  },
+  sequence: { actorMargin: 60, boxMargin: 10, mirrorActors: false },
+  fontFamily: '-apple-system, "Segoe UI", system-ui, sans-serif',
+});
+
+/**
+ * Render markdown to HTML, extracting ```mermaid blocks and
+ * replacing them with interactive Mermaid wrappers.
+ */
+function renderMarkdown(mdText) {
+  // Split on ```mermaid ... ``` fences
+  const parts = mdText.split(/(```mermaid[\s\S]*?```)/g);
+  let mermaidIndex = 0;
+  const mermaidDefs = [];
+
+  const processedParts = parts.map(part => {
+    const match = part.match(/^```mermaid\n([\s\S]*?)\n?```$/);
+    if (match) {
+      const id = 'mermaid-' + (mermaidIndex++);
+      mermaidDefs.push({ id, def: match[1] });
+      return `<div class="mermaid-wrapper"><div class="mermaid" id="${id}"></div></div>`;
+    }
+    return marked.parse(part);
+  });
+
+  return { html: processedParts.join(''), mermaidDefs };
+}
+
+// Map tab keys → panel ids and doc keys
+const TAB_MAP = {
+  architecture: { panelId: 'panel-architecture', docKey: 'architecture' },
+  diagrams:     { panelId: 'panel-diagrams',     docKey: 'diagrams'     },
+  setup:        { panelId: 'panel-setup',         docKey: 'setup'        },
+  tasks:        { panelId: 'panel-tasks',         docKey: 'tasks'        },
+};
+
+// Track which tabs have been rendered (lazy)
+const rendered = {};
+
+async function renderTab(tabKey) {
+  if (rendered[tabKey]) return;
+  rendered[tabKey] = true;
+
+  const { panelId, docKey } = TAB_MAP[tabKey];
+  const panel = document.getElementById(panelId);
+  const { html, mermaidDefs } = renderMarkdown(DOCS[docKey]);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'md';
+  wrapper.innerHTML = html;
+  panel.appendChild(wrapper);
+
+  // Render any Mermaid diagrams
+  if (mermaidDefs.length > 0) {
+    for (const { id, def } of mermaidDefs) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      try {
+        const { svg } = await mermaid.render('m-' + id, def);
+        el.innerHTML = svg;
+      } catch (err) {
+        el.innerHTML = `<pre style="color:#f85149;font-size:.8rem;text-align:left">Mermaid render error:\n${err.message}</pre>`;
+      }
+    }
+  }
+}
+
+// ─── Tab switching ────────────────────────────────────────────────────────────
+
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+function activateTab(tabKey) {
+  tabBtns.forEach(btn => {
+    const active = btn.dataset.tab === tabKey;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active);
+  });
+  tabPanels.forEach(panel => {
+    panel.classList.toggle('active', panel.id === TAB_MAP[tabKey].panelId);
+  });
+  renderTab(tabKey);
+  // Update URL hash without scrolling
+  history.replaceState(null, '', '#' + tabKey);
+}
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+});
+
+// ─── Initial render ───────────────────────────────────────────────────────────
+
+// Check URL hash for deep-link
+const hash = location.hash.slice(1);
+const initialTab = TAB_MAP[hash] ? hash : 'architecture';
+activateTab(initialTab);
+</script>
+</body>
+</html>

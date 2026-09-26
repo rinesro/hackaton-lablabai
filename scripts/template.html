@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROJECT_NAME}} | Onboarding Guide</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0d1117;
+    --surface:  #161b22;
+    --surface2: #1c2128;
+    --border:   #30363d;
+    --text:     #e6edf3;
+    --muted:    #8b949e;
+    --accent:   #58a6ff;
+    --accent2:  #bc8cff;
+    --green:    #3fb950;
+    --orange:   #d29922;
+    --red:      #f85149;
+    --radius:   8px;
+    --font:     -apple-system, "Segoe UI", system-ui, sans-serif;
+    --mono:     "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  .site-header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1a1040 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 40%, rgba(88,166,255,.07) 0%, transparent 50%),
+      radial-gradient(circle at 80% 60%, rgba(188,140,255,.07) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .site-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .site-header p {
+    color: var(--muted);
+    margin-top: 6px;
+    font-size: 0.95rem;
+    position: relative;
+  }
+
+  /* ── Tabs ────────────────────────────────────── */
+  .tabs-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 14px 22px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font: 0.875rem/1 var(--font);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab-btn .tab-icon { font-size: 1rem; }
+
+  /* ── Content area ────────────────────────────── */
+  .tab-panel { display: none; padding: 40px 24px 80px; max-width: 900px; margin: 0 auto; }
+  .tab-panel.active { display: block; }
+
+  /* ── Markdown rendered styles ────────────────── */
+  .md h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .md h2 { font-size: 1.25rem; font-weight: 600; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .md h3 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 8px; color: var(--accent2); }
+  .md h4 { font-size: 0.95rem; font-weight: 600; margin: 16px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+  .md p { margin-bottom: 12px; }
+  .md ul, .md ol { padding-left: 22px; margin-bottom: 12px; }
+  .md li { margin-bottom: 5px; }
+  .md li > ul, .md li > ol { margin-top: 4px; margin-bottom: 4px; }
+
+  .md a { color: var(--accent); text-decoration: none; }
+  .md a:hover { text-decoration: underline; }
+
+  .md strong { color: var(--text); font-weight: 600; }
+  .md em { color: var(--muted); }
+
+  .md hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  .md code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: #f78166;
+  }
+
+  .md pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 14px 0 20px;
+    position: relative;
+  }
+  .md pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #e6edf3;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* ── Tables ──────────────────────────────────── */
+  .md table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: 0.9rem;
+  }
+  .md th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .md td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .md tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+
+  /* ── Blockquote ──────────────────────────────── */
+  .md blockquote {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 16px;
+    margin: 14px 0;
+    background: rgba(188,140,255,.05);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--muted);
+  }
+
+  /* ── Difficulty badges ───────────────────────── */
+  .md p:has(strong:first-child) { line-height: 1.8; }
+
+  /* ── Mermaid diagrams ────────────────────────── */
+  .mermaid-wrapper {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin: 18px 0 28px;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .mermaid-wrapper .mermaid { display: inline-block; }
+
+  /* Mermaid dark overrides */
+  .mermaid svg { background: transparent !important; max-width: 100%; }
+
+  /* ── Footer ──────────────────────────────────── */
+  .site-footer {
+    text-align: center;
+    padding: 22px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.4rem; }
+    .tab-btn { padding: 12px 14px; font-size: 0.8rem; }
+    .tab-panel { padding: 28px 16px 60px; }
+    .md h1 { font-size: 1.4rem; }
+    .md h2 { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>🚀 {{PROJECT_NAME}}</h1>
+  <p>Onboarding Guide: Architecture · Diagrams · Setup · Starter Tasks</p>
+</header>
+
+<nav class="tabs-bar" role="tablist">
+  <button class="tab-btn active" role="tab" data-tab="architecture" aria-selected="true">
+    <span class="tab-icon">🏗️</span> Architecture
+  </button>
+  <button class="tab-btn" role="tab" data-tab="diagrams" aria-selected="false">
+    <span class="tab-icon">📐</span> Diagrams
+  </button>
+  <button class="tab-btn" role="tab" data-tab="setup" aria-selected="false">
+    <span class="tab-icon">⚙️</span> Setup Guide
+  </button>
+  <button class="tab-btn" role="tab" data-tab="tasks" aria-selected="false">
+    <span class="tab-icon">✅</span> Starter Tasks
+  </button>
+</nav>
+
+<main>
+  <section class="tab-panel active" id="panel-architecture" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-diagrams" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-setup" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-tasks" role="tabpanel"></section>
+</main>
+
+<footer class="site-footer">
+  {{FOOTER_NOTE}} &middot; {{PROJECT_NAME}}
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Markdown source strings — injected by scripts/build-site.js
+// ─────────────────────────────────────────────────────────────────────────────
+
+{{DOCS_BLOCK}}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rendering
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Configure marked
+marked.setOptions({ gfm: true, breaks: false });
+
+// Configure Mermaid with a dark theme
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark',
+  darkMode: true,
+  themeVariables: {
+    primaryColor: '#1c2128',
+    primaryTextColor: '#e6edf3',
+    primaryBorderColor: '#58a6ff',
+    lineColor: '#8b949e',
+    secondaryColor: '#161b22',
+    tertiaryColor: '#0d1117',
+    background: '#0d1117',
+    mainBkg: '#1c2128',
+    nodeBorder: '#30363d',
+    clusterBkg: '#161b22',
+    titleColor: '#e6edf3',
+    edgeLabelBackground: '#161b22',
+    actorBkg: '#1c2128',
+    actorBorder: '#58a6ff',
+    actorTextColor: '#e6edf3',
+    actorLineColor: '#8b949e',
+    signalColor: '#8b949e',
+    signalTextColor: '#e6edf3',
+    labelBoxBkgColor: '#1c2128',
+    labelBoxBorderColor: '#30363d',
+    labelTextColor: '#e6edf3',
+    loopTextColor: '#e6edf3',
+    noteBorderColor: '#30363d',
+    noteBkgColor: '#161b22',
+    noteTextColor: '#e6edf3',
+    activationBorderColor: '#58a6ff',
+    activationBkgColor: '#1c2128',
+    sequenceNumberColor: '#58a6ff',
+    classText: '#e6edf3',
+  },
+  sequence: { actorMargin: 60, boxMargin: 10, mirrorActors: false },
+  fontFamily: '-apple-system, "Segoe UI", system-ui, sans-serif',
+});
+
+/**
+ * Render markdown to HTML, extracting ```mermaid blocks and
+ * replacing them with interactive Mermaid wrappers.
+ */
+function renderMarkdown(mdText) {
+  // Split on ```mermaid ... ``` fences
+  const parts = mdText.split(/(```mermaid[\s\S]*?```)/g);
+  let mermaidIndex = 0;
+  const mermaidDefs = [];
+
+  const processedParts = parts.map(part => {
+    const match = part.match(/^```mermaid\n([\s\S]*?)\n?```$/);
+    if (match) {
+      const id = 'mermaid-' + (mermaidIndex++);
+      mermaidDefs.push({ id, def: match[1] });
+      return `<div class="mermaid-wrapper"><div class="mermaid" id="${id}"></div></div>`;
+    }
+    return marked.parse(part);
+  });
+
+  return { html: processedParts.join(''), mermaidDefs };
+}
+
+// Map tab keys → panel ids and doc keys
+const TAB_MAP = {
+  architecture: { panelId: 'panel-architecture', docKey: 'architecture' },
+  diagrams:     { panelId: 'panel-diagrams',     docKey: 'diagrams'     },
+  setup:        { panelId: 'panel-setup',         docKey: 'setup'        },
+  tasks:        { panelId: 'panel-tasks',         docKey: 'tasks'        },
+};
+
+// Track which tabs have been rendered (lazy)
+const rendered = {};
+
+async function renderTab(tabKey) {
+  if (rendered[tabKey]) return;
+  rendered[tabKey] = true;
+
+  const { panelId, docKey } = TAB_MAP[tabKey];
+  const panel = document.getElementById(panelId);
+  const { html, mermaidDefs } = renderMarkdown(DOCS[docKey]);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'md';
+  wrapper.innerHTML = html;
+  panel.appendChild(wrapper);
+
+  // Render any Mermaid diagrams
+  if (mermaidDefs.length > 0) {
+    for (const { id, def } of mermaidDefs) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      try {
+        const { svg } = await mermaid.render('m-' + id, def);
+        el.innerHTML = svg;
+      } catch (err) {
+        el.innerHTML = `<pre style="color:#f85149;font-size:.8rem;text-align:left">Mermaid render error:\n${err.message}</pre>`;
+      }
+    }
+  }
+}
+
+// ─── Tab switching ────────────────────────────────────────────────────────────
+
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+function activateTab(tabKey) {
+  tabBtns.forEach(btn => {
+    const active = btn.dataset.tab === tabKey;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active);
+  });
+  tabPanels.forEach(panel => {
+    panel.classList.toggle('active', panel.id === TAB_MAP[tabKey].panelId);
+  });
+  renderTab(tabKey);
+  // Update URL hash without scrolling
+  history.replaceState(null, '', '#' + tabKey);
+}
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+});
+
+// ─── Initial render ───────────────────────────────────────────────────────────
+
+// Check URL hash for deep-link
+const hash = location.hash.slice(1);
+const initialTab = TAB_MAP[hash] ? hash : 'architecture';
+activateTab(initialTab);
+</script>
+</body>
+</html>

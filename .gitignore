@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Secrets
+.env
+.env.local
+**/.env.local
+
+# Build output
+.next/
+**/.next/
+
+# OS / editor
+.DS_Store
+Thumbs.db

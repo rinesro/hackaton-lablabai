@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobGap | Onboarding Guide</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0d1117;
+    --surface:  #161b22;
+    --surface2: #1c2128;
+    --border:   #30363d;
+    --text:     #e6edf3;
+    --muted:    #8b949e;
+    --accent:   #58a6ff;
+    --accent2:  #bc8cff;
+    --green:    #3fb950;
+    --orange:   #d29922;
+    --red:      #f85149;
+    --radius:   8px;
+    --font:     -apple-system, "Segoe UI", system-ui, sans-serif;
+    --mono:     "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  .site-header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1a1040 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 40%, rgba(88,166,255,.07) 0%, transparent 50%),
+      radial-gradient(circle at 80% 60%, rgba(188,140,255,.07) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .site-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .site-header p {
+    color: var(--muted);
+    margin-top: 6px;
+    font-size: 0.95rem;
+    position: relative;
+  }
+
+  /* ── Tabs ────────────────────────────────────── */
+  .tabs-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 14px 22px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font: 0.875rem/1 var(--font);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab-btn .tab-icon { font-size: 1rem; }
+
+  /* ── Content area ────────────────────────────── */
+  .tab-panel { display: none; padding: 40px 24px 80px; max-width: 900px; margin: 0 auto; }
+  .tab-panel.active { display: block; }
+
+  /* ── Markdown rendered styles ────────────────── */
+  .md h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .md h2 { font-size: 1.25rem; font-weight: 600; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .md h3 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 8px; color: var(--accent2); }
+  .md h4 { font-size: 0.95rem; font-weight: 600; margin: 16px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+  .md p { margin-bottom: 12px; }
+  .md ul, .md ol { padding-left: 22px; margin-bottom: 12px; }
+  .md li { margin-bottom: 5px; }
+  .md li > ul, .md li > ol { margin-top: 4px; margin-bottom: 4px; }
+
+  .md a { color: var(--accent); text-decoration: none; }
+  .md a:hover { text-decoration: underline; }
+
+  .md strong { color: var(--text); font-weight: 600; }
+  .md em { color: var(--muted); }
+
+  .md hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  .md code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: #f78166;
+  }
+
+  .md pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 14px 0 20px;
+    position: relative;
+  }
+  .md pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #e6edf3;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* ── Tables ──────────────────────────────────── */
+  .md table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: 0.9rem;
+  }
+  .md th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .md td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .md tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+
+  /* ── Blockquote ──────────────────────────────── */
+  .md blockquote {
+    border-left: 3px solid var(--accent2);
+    padding: 10px 16px;
+    margin: 14px 0;
+    background: rgba(188,140,255,.05);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--muted);
+  }
+
+  /* ── Difficulty badges ───────────────────────── */
+  .md p:has(strong:first-child) { line-height: 1.8; }
+
+  /* ── Mermaid diagrams ────────────────────────── */
+  .mermaid-wrapper {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin: 18px 0 28px;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .mermaid-wrapper .mermaid { display: inline-block; }
+
+  /* Mermaid dark overrides */
+  .mermaid svg { background: transparent !important; max-width: 100%; }
+
+  /* ── Footer ──────────────────────────────────── */
+  .site-footer {
+    text-align: center;
+    padding: 22px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.4rem; }
+    .tab-btn { padding: 12px 14px; font-size: 0.8rem; }
+    .tab-panel { padding: 28px 16px 60px; }
+    .md h1 { font-size: 1.4rem; }
+    .md h2 { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>🚀 JobGap</h1>
+  <p>Onboarding Guide — Architecture · Diagrams · Setup · Starter Tasks</p>
+</header>
+
+<nav class="tabs-bar" role="tablist">
+  <button class="tab-btn active" role="tab" data-tab="architecture" aria-selected="true">
+    <span class="tab-icon">🏗️</span> Architecture
+  </button>
+  <button class="tab-btn" role="tab" data-tab="diagrams" aria-selected="false">
+    <span class="tab-icon">📐</span> Diagrams
+  </button>
+  <button class="tab-btn" role="tab" data-tab="setup" aria-selected="false">
+    <span class="tab-icon">⚙️</span> Setup Guide
+  </button>
+  <button class="tab-btn" role="tab" data-tab="tasks" aria-selected="false">
+    <span class="tab-icon">✅</span> Starter Tasks
+  </button>
+</nav>
+
+<main>
+  <section class="tab-panel active" id="panel-architecture" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-diagrams" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-setup" role="tabpanel"></section>
+  <section class="tab-panel" id="panel-tasks" role="tabpanel"></section>
+</main>
+
+<footer class="site-footer">
+  Generated by IBM Bob &middot; JobGap
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Markdown source strings — injected by scripts/build-site.js
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DOCS = {};
+
+DOCS.architecture = `# Architecture — JobGap
+
+## Purpose
+
+JobGap is a **skill-gap analyzer and application tracker** built for fresh graduates in Indonesia (youth unemployment ~16.89%). It helps users:
+
+- Identify the gap between their CV skills and a job description's requirements
+- Receive a prioritized learning plan from Google Gemini AI (≤ 5 steps)
+- Track every job application and monitor response rates by CV version
+- Supports CVs and JDs in both English and Indonesian
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Notes |
+|---|---|---|
+| **Framework** | Next.js 16.3.5 (App Router) | Full-stack; handles client pages and server route handlers |
+| **Language** | TypeScript 5 | Strict typing across all files |
+| **UI** | React 19.2.8 + Tailwind CSS 4 | Hooks-based state; utility-first styling |
+| **Validation** | Zod 4.6.5 | Runtime schema validation at API boundaries and storage |
+| **AI** | Google Gemini \`@google/genai\` 2.23.0 | Structured-JSON output; retry + fallback model pattern |
+| **Charting** | recharts 3.10.1 | Response-rate bar chart on Dashboard |
+| **Document parsing** | mammoth 1.12.3, unpdf 1.8.1 | Extract text from DOCX and PDF CV uploads |
+| **Storage** | Browser \`localStorage\` | No backend database; all tracker data persists per device |
+| **Testing** | Jest 30.5.2, ts-jest 29.4.12 | Unit tests for schemas, retry logic, storage, extraction |
+| **Linting / Format** | ESLint, TypeScript compiler | \`eslint.config.mjs\`, \`tsconfig.json\` |
+
+---
+
+## Key Components
+
+### Frontend
+
+**Pages (\`src/app/\`)**
+
+| File | Route | Responsibility |
+|---|---|---|
+| \`layout.tsx\` | all routes | Root layout: navigation bar, \`LanguageProvider\` wrapper |
+| \`page.tsx\` | \`/\` | Skill Gap Analyzer: manages CV/JD state, calls \`/api/analyze\`, renders result |
+| \`tracker/page.tsx\` | \`/tracker\` | Application Tracker + Dashboard: loads from localStorage, inline edits, delete |
+
+**UI Components (\`src/components/\`)**
+
+| Component | Description |
+|---|---|
+| \`CvUpload.tsx\` | File-upload (PDF/DOCX) or manual textarea for CV input |
+| \`JdForm.tsx\` | Multi-field form for job details; optional image upload → \`/api/extract-jd\` |
+| \`AnalyzerForm.tsx\` | Wrapper combining CV and JD inputs |
+| \`AnalysisResult.tsx\` | Renders match score badge, matched/missing skill chips, learning plan table |
+| \`AppForm.tsx\` | Adds a new application to the tracker (company, role, date, CV version) |
+| \`AppTable.tsx\` | Table of tracked applications with inline status dropdown and delete |
+| \`Dashboard.tsx\` | Overall response-rate stat + recharts bar chart per CV version |
+| \`NavLinks.tsx\` | Navigation links to \`/\` and \`/tracker\` |
+| \`LanguageToggle.tsx\` | Toggle between English and Indonesian locale |
+
+**Context & i18n (\`src/lib/\`)**
+
+- \`LanguageContext.tsx\` — React Context; exposes \`useLanguage()\` and \`useT()\` hooks
+- \`i18n.ts\` — Localization string dictionaries (en / id)
+
+### Backend / API
+
+**Route Handlers (\`src/app/api/\`)**
+
+| Route | File | Description |
+|---|---|---|
+| \`POST /api/analyze\` | \`analyze/route.ts\` | Main skill-gap endpoint. Validates input → builds prompt → calls Gemini → computes \`match_score\` → returns JSON |
+| \`POST /api/extract-cv\` | \`extract-cv/route.ts\` | Accepts multipart CV file (DOCX/PDF); extracts plain text via mammoth/unpdf |
+| \`POST /api/extract-jd\` | \`extract-jd/route.ts\` | Accepts JD image (base64); calls \`extractJdWithGemini()\` to return structured JD fields |
+
+**Server-side library (\`src/lib/\`)**
+
+| File | Responsibility |
+|---|---|
+| \`schema.ts\` | Zod schemas: \`AnalyzeInputSchema\`, \`AnalyzeOutputSchema\`, \`ApplicationSchema\`, \`MissingSkillSchema\`, \`LearningStepSchema\` |
+| \`jdSchema.ts\` | Zod schema for \`JdForm\` (jobTitle, company, requirements, description, workingHours, benefits, otherInfo) |
+| \`validateJd.ts\` | Rule-based JD validation (blocking issues vs. warnings) before Gemini call |
+| \`prompt.ts\` | \`buildPrompt({ cv, jd, locale })\` — assembles the Gemini text prompt |
+| \`gemini.ts\` | \`callGeminiWithRetry()\` (3 attempts, 1/2/4 s backoff), \`analyzeWithGemini()\` (primary + fallback), \`extractJdWithGemini()\` |
+| \`resources.ts\` | Learning-resource catalog referenced by the prompt |
+| \`skillKeywords.ts\` | Skill synonym mapping used during analysis |
+| \`sample.ts\` | \`SAMPLE_CV\` and \`SAMPLE_JD_FORM\` demo strings for the "Try Sample" button |
+
+### Storage
+
+All application-tracker data lives in the browser's **\`localStorage\`** under key \`"jobgap_applications"\` (JSON array). There is no backend database.
+
+**\`src/lib/storage.ts\`** exports:
+
+| Function | Description |
+|---|---|
+| \`loadApplications()\` | Read all records; Zod-validates each entry and silently drops corrupt ones |
+| \`saveApplication(app)\` | Append a new \`Application\` record |
+| \`updateStatus(id, status)\` | Change the status field of one record |
+| \`deleteApplication(id)\` | Remove a record by ID |
+
+---
+
+## Folder Structure
+
+\`\`\`
+examples/jobgap/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx               # Root layout + nav + LanguageProvider
+│   │   ├── page.tsx                 # "/" — Skill Gap Analyzer page
+│   │   ├── globals.css              # Tailwind base + custom styles
+│   │   ├── tracker/
+│   │   │   └── page.tsx             # "/tracker" — Application Tracker + Dashboard
+│   │   └── api/
+│   │       ├── analyze/
+│   │       │   └── route.ts         # POST /api/analyze
+│   │       ├── extract-cv/
+│   │       │   └── route.ts         # POST /api/extract-cv
+│   │       └── extract-jd/
+│   │           └── route.ts         # POST /api/extract-jd
+│   ├── components/
+│   │   ├── CvUpload.tsx
+│   │   ├── JdForm.tsx
+│   │   ├── AnalyzerForm.tsx
+│   │   ├── AnalysisResult.tsx
+│   │   ├── AppForm.tsx
+│   │   ├── AppTable.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── NavLinks.tsx
+│   │   └── LanguageToggle.tsx
+│   ├── lib/
+│   │   ├── schema.ts                # Core Zod types
+│   │   ├── jdSchema.ts              # JdForm Zod schema
+│   │   ├── validateJd.ts            # Rule-based JD checks
+│   │   ├── prompt.ts                # Gemini prompt builder
+│   │   ├── gemini.ts                # Gemini client + retry + fallback
+│   │   ├── storage.ts               # localStorage CRUD
+│   │   ├── LanguageContext.tsx      # i18n context
+│   │   ├── i18n.ts                  # Localization strings
+│   │   ├── resources.ts             # Learning resource catalog
+│   │   ├── skillKeywords.ts         # Skill synonym map
+│   │   └── sample.ts                # Demo CV + JD data
+│   └── __tests__/
+│       ├── schema.test.ts
+│       ├── gemini.test.ts
+│       ├── storage.test.ts
+│       ├── extract-cv.test.ts
+│       ├── validateJd.test.ts
+│       ├── resources.test.ts
+│       └── fixtures/
+│           └── sample.docx          # DOCX fixture for extract-cv tests
+├── package.json
+├── tsconfig.json
+├── jest.config.ts
+├── next.config.ts
+├── README.md
+└── .env.local                       # API key — git-ignored
+\`\`\`
+
+---
+
+## Data Flow
+
+### Primary Happy Path — Skill Gap Analysis
+
+\`\`\`
+User fills CV + JD  →  POST /api/analyze  →  Gemini API  →  AnalysisResult rendered
+\`\`\`
+
+**Step-by-step:**
+
+1. **User Input** — The user pastes or uploads a CV via \`CvUpload\` and fills job details in \`JdForm\`. Optionally uploads a JD image, which triggers \`POST /api/extract-jd\` to have Gemini parse it into form fields.
+
+2. **Client-side validation** — On "Analyze" click, \`page.tsx\` calls \`validateJd(jd, cv)\` (rule-based checks). Blocking issues halt submission with inline errors; warnings are shown informally.
+
+3. **API Request** — \`page.tsx\` sends:
+   \`\`\`json
+   POST /api/analyze
+   { "cv": "...", "jd": { "jobTitle": "...", "requirements": "...", ... }, "locale": "en" }
+   \`\`\`
+
+4. **Server validation** — \`route.ts\` runs \`RequestSchema.safeParse()\` (Zod). Returns 400 on schema error; calls \`validateJd()\` again server-side and returns 422 on blocking JD issues.
+
+5. **Prompt construction** — \`buildPrompt({ cv, jd, locale })\` converts JD fields to labeled text and embeds locale instructions.
+
+6. **Gemini call with retry** — \`analyzeWithGemini(prompt)\` calls \`callGeminiWithRetry()\` on the primary model (up to 3 attempts, exponential backoff at 1 s / 2 s / 4 s, jitter ±200 ms). Retries only on 429/503. On exhaustion, tries the fallback model once. On total failure, throws \`GeminiBusyError\` → HTTP 503.
+
+7. **Structured response** — Gemini returns JSON enforced by \`RESPONSE_SCHEMA\`:
+   \`\`\`json
+   { "matched_skills": [...], "missing_skills": [{"skill":"...","priority":"..."},...], "learning_plan": [{"skill":"...","action":"...","resource_type":"...","est_hours":0},...] }
+   \`\`\`
+
+8. **Match score computation** — \`route.ts\` computes \`match_score = round(matched / (matched + missing) * 100)\` and attaches it to the response. Score is never requested from the LLM.
+
+9. **Result rendering** — \`page.tsx\` stores the response in React state. \`AnalysisResult\` renders: green match-score badge, matched skill chips, missing skill chips with priority colors, and the learning plan table.
+
+### Secondary Flow — Application Tracker
+
+1. User navigates to \`/tracker\`
+2. \`tracker/page.tsx\` calls \`loadApplications()\` → reads and Zod-validates \`localStorage\`
+3. \`AppForm\` submits → \`saveApplication()\` → persists to \`localStorage\`
+4. \`AppTable\` renders rows; status dropdown → \`updateStatus()\`; delete button → \`deleteApplication()\`
+5. \`Dashboard\` reads all records, computes response rate, renders recharts bar chart per CV version
+`;
+
+DOCS.diagrams = `# Diagrams — JobGap
+
+## Diagram 1 — Class Diagram
+
+\`\`\`mermaid
+classDiagram
+    class AnalyzeInput {
+        +string cv
+        +string jobDescription
+    }
+    class JdForm {
+        +string jobTitle
+        +string company
+        +string requirements
+        +string description
+        +string workingHours
+        +string benefits
+        +string otherInfo
+    }
+    class MissingSkill {
+        +string skill
+        +string priority
+    }
+    class LearningStep {
+        +string skill
+        +string action
+        +string resource_type
+        +number est_hours
+    }
+    class LLMAnalysis {
+        +string[] matched_skills
+        +MissingSkill[] missing_skills
+        +LearningStep[] learning_plan
+    }
+    class AnalyzeOutput {
+        +number match_score
+        +string[] matched_skills
+        +MissingSkill[] missing_skills
+        +LearningStep[] learning_plan
+    }
+    class Application {
+        +string id
+        +string company
+        +string role
+        +string date_applied
+        +string cv_version
+        +string status
+    }
+    LLMAnalysis --> MissingSkill : contains
+    LLMAnalysis --> LearningStep : contains
+    AnalyzeOutput --> MissingSkill : contains
+    AnalyzeOutput --> LearningStep : contains
+    AnalyzeOutput ..> LLMAnalysis : extends with match_score
+\`\`\`
+
+## Diagram 2 — Sequence Diagram
+
+\`\`\`mermaid
+sequenceDiagram
+    actor User
+    participant Page as page.tsx
+    participant Route as POST /api/analyze
+    participant Prompt as buildPrompt
+    participant Gemini as analyzeWithGemini
+    participant API as Gemini API
+    participant Result as AnalysisResult
+
+    User->>Page: Fill CV and JdForm, click Analyze
+    Page->>Page: validateJd client-side
+    Page->>Route: POST /api/analyze {cv, jd, locale}
+    Route->>Route: RequestSchema.safeParse
+    Route->>Route: validateJd server-side
+    Route->>Prompt: buildPrompt({cv, jd, locale})
+    Prompt-->>Route: prompt string
+    Route->>Gemini: analyzeWithGemini(prompt)
+    loop retry up to 3x on 429/503
+        Gemini->>API: generateContent(prompt, RESPONSE_SCHEMA)
+        API-->>Gemini: LLMAnalysis JSON
+    end
+    Gemini-->>Route: LLMAnalysis
+    Route->>Route: computeMatchScore
+    Route-->>Page: {match_score, matched_skills, missing_skills, learning_plan}
+    Page->>Result: pass result prop
+    Result-->>User: Render score badge, skill chips, learning plan
+\`\`\`
+`;
+
+DOCS.setup = `# Setup Guide — JobGap
+
+## Prerequisites
+
+| Tool | Version | Check | Download |
+|---|---|---|---|
+| Node.js | >= 18 | \`node --version\` | [nodejs.org](https://nodejs.org/) |
+| npm | >= 8 (bundled with Node) | \`npm --version\` | Comes with Node.js |
+| Git | any | \`git --version\` | [git-scm.com](https://git-scm.com/) |
+| Gemini API key | — | — | [aistudio.google.com](https://aistudio.google.com/app/apikey) (free tier works) |
+
+---
+
+## 1. Clone the Repository
+
+**macOS / Linux:**
+\`\`\`bash
+git clone <repo-url>
+cd examples/jobgap
+\`\`\`
+
+**Windows (PowerShell):**
+\`\`\`powershell
+git clone <repo-url>
+cd examples\\jobgap
+\`\`\`
+
+---
+
+## 2. Install Dependencies
+
+\`\`\`bash
+npm install
+\`\`\`
+
+This installs Next.js, React, Zod, \`@google/genai\`, Tailwind CSS, recharts, mammoth, unpdf, Jest, and all dev dependencies listed in \`package.json\`.
+
+**Verify:**
+\`\`\`bash
+npm list next react @google/genai
+\`\`\`
+
+---
+
+## 3. Configure Environment Variables
+
+Create \`.env.local\` in the project root (\`examples/jobgap/.env.local\`):
+
+**macOS / Linux:**
+\`\`\`bash
+touch .env.local
+\`\`\`
+
+**Windows (PowerShell):**
+\`\`\`powershell
+New-Item -Name .env.local -ItemType File
+\`\`\`
+
+Add the following content:
+
+\`\`\`env
+GEMINI_API_KEY=your-actual-key-here
+\`\`\`
+
+### Environment Variable Reference
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| \`GEMINI_API_KEY\` | Yes | — | Google Gemini API key. Never commit this value. |
+| \`GEMINI_MODEL\` | No | \`gemini-3.6-flash\` | Primary model name. |
+| \`GEMINI_FALLBACK_MODEL\` | No | (none) | Fallback model tried once if primary exhausts 3 retries (e.g. \`gemini-2.0-flash-lite\`). |
+
+All variables are read server-side in \`src/lib/gemini.ts\` only. They are never exposed to the browser.
+
+\`.env.local\` is git-ignored by default.
+
+> **Note:** \`.env.local.example\` is not present in this repo. Create \`.env.local\` manually with the content above.
+
+---
+
+## 4. Run the Application
+
+\`\`\`bash
+npm run dev
+\`\`\`
+
+Expected output:
+\`\`\`
+  ▲ Next.js 16.3.5
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Ready in ~2s
+\`\`\`
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+**Other available scripts:**
+
+| Command | Description |
+|---|---|
+| \`npm run dev\` | Start development server with hot reload |
+| \`npm run build\` | Production build |
+| \`npm run start\` | Start production server (after build) |
+| \`npm run lint\` | Run ESLint |
+| \`npm test\` | Run all Jest tests |
+
+---
+
+## 5. Verify It Works
+
+| URL | Expected result |
+|---|---|
+| \`http://localhost:3000/\` | Skill Gap Analyzer — two-panel form (CV input + JD fields) with "Analyze" button |
+| \`http://localhost:3000/tracker\` | Application Tracker — empty table + add-application form + dashboard |
+
+**Quick smoke test:**
+1. Go to \`http://localhost:3000/\`
+2. Click **"Try Sample"** — demo CV and JD populate automatically
+3. Click **"Analyze"** — wait 2–5 seconds
+4. You should see a match-score badge, skill chips, and a learning plan table ✅
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| Page shows nothing at \`:3000\` | Dev server not running | Run \`npm run dev\` in the \`examples/jobgap\` directory |
+| \`Error: GEMINI_API_KEY is not set\` | \`.env.local\` missing or key absent | Create \`.env.local\` with \`GEMINI_API_KEY=<your-key>\` |
+| \`Error: listen EADDRINUSE :::3000\` | Port 3000 already in use | **macOS/Linux:** \`lsof -ti:3000 \\| xargs kill\` **Windows:** \`netstat -ano \\| findstr :3000\` then \`taskkill /PID <pid> /F\` |
+| \`Error 429 Too Many Requests\` from Gemini | Free-tier rate limit hit | Wait ~1 min; add \`GEMINI_FALLBACK_MODEL=gemini-2.0-flash-lite\` to \`.env.local\` |
+| \`Cannot find module '@google/genai'\` | \`npm install\` not run or failed | Delete \`node_modules/\` and run \`npm install\` again |
+| TypeScript errors in editor | Stale IDE cache | Restart your editor; run \`npm run build\` to verify the TypeScript compiles |
+| \`localStorage\` tracker data lost | Different browser or incognito mode | Data is per-browser and not synced; use the same browser profile |
+
+---
+
+## Running Tests
+
+\`\`\`bash
+npm test
+\`\`\`
+
+**Expected output (31 tests):**
+\`\`\`
+PASS  src/__tests__/schema.test.ts
+PASS  src/__tests__/gemini.test.ts
+PASS  src/__tests__/storage.test.ts
+PASS  src/__tests__/extract-cv.test.ts
+PASS  src/__tests__/validateJd.test.ts
+PASS  src/__tests__/resources.test.ts
+
+Test Suites: 6 passed, 6 total
+Tests:       31 passed, 31 total
+\`\`\`
+
+| Suite | What it covers |
+|---|---|
+| \`schema.test.ts\` | \`AnalyzeOutputSchema\` — score range 0–100, priority enum, learning plan capped at 5 items |
+| \`gemini.test.ts\` | \`callGeminiWithRetry\` — exponential backoff, 400 no-retry, fallback model, \`GeminiBusyError\` |
+| \`storage.test.ts\` | localStorage CRUD — add/update/delete \`Application\`, response-rate calculation |
+| \`extract-cv.test.ts\` | \`/api/extract-cv\` — 400/422 validation, real DOCX fixture parsing |
+| \`validateJd.test.ts\` | Rule-based JD validation — blocking issues vs. warnings |
+| \`resources.test.ts\` | Learning resource catalog logic |
+
+Run a single suite:
+\`\`\`bash
+npm test -- schema.test.ts
+\`\`\`
+
+Run with coverage:
+\`\`\`bash
+npm test -- --coverage
+\`\`\`
+`;
+
+DOCS.tasks = `# Starter Tasks — JobGap
+
+### Task 1: Add a Salary Range Field to the Application Tracker
+
+**Difficulty:** Easy
+
+**Why it's a good first task:** It is a pure data-layer addition that touches the Zod schema, form, and table without involving the AI layer. It teaches you how data flows from schema to storage to UI.
+
+**Files to touch:**
+- \`src/lib/schema.ts\` — Add \`salary_range\` field to \`ApplicationSchema\`
+- \`src/components/AppForm.tsx\` — Add a text input for salary range
+- \`src/components/AppTable.tsx\` — Add a salary range column to the table
+
+**What to do:**
+- In \`ApplicationSchema\` (line 41 of \`schema.ts\`), add \`salary_range: z.string().optional()\`
+- In \`AppForm.tsx\`, add a labeled \`<input type="text">\` for "Salary Range" and include it in the submitted record
+- In \`AppTable.tsx\`, add a \`<th>Salary</th>\` header and render \`app.salary_range\` in each row
+- Run \`npm test\` to confirm schema validation tests still pass
+- Run \`npm run dev\` and add a test application with a salary range to verify end-to-end
+
+---
+
+### Task 2: Improve Error Messages in the Analyzer
+
+**Difficulty:** Easy
+
+**Why it's a good first task:** Error handling UX is often neglected but high-value. You will trace the error path from \`GeminiBusyError\` in \`src/lib/gemini.ts\` through \`src/app/api/analyze/route.ts\` to the UI in \`src/app/page.tsx\`.
+
+**Files to touch:**
+- \`src/app/page.tsx\` — Render friendlier error text based on HTTP status code
+- \`src/app/api/analyze/route.ts\` — Optionally add an \`errorCode\` field to error responses
+
+**What to do:**
+- Identify where \`setError()\` is called in \`page.tsx\` after a failed \`/api/analyze\` request
+- Map the 503 response (Gemini busy) to: "The AI is overloaded — please retry in 30 seconds."
+- Map the 422 response to: "Your job description is incomplete. Check the Requirements field."
+- Map unexpected errors to a generic fallback message with a suggestion to check the API key
+- Test each path by temporarily returning different status codes in \`route.ts\` during development
+
+---
+
+### Task 3: Add a Color-Coded Match Score Badge to the Tracker
+
+**Difficulty:** Easy
+
+**Why it's a good first task:** Conditional styling is a core React/Tailwind pattern used throughout this codebase (see \`src/components/AnalysisResult.tsx\`). This task gives you a safe, isolated place to practice it.
+
+**Files to touch:**
+- \`src/lib/schema.ts\` — Add optional \`match_score\` to \`ApplicationSchema\`
+- \`src/components/AppForm.tsx\` — Add a numeric input for match score (0–100)
+- \`src/components/AppTable.tsx\` — Render a colored badge: green >= 70, orange 40–69, red < 40
+
+**What to do:**
+- Add \`match_score: z.number().int().min(0).max(100).optional()\` to \`ApplicationSchema\`
+- Add a "Match Score %" number input to \`AppForm.tsx\`
+- In \`AppTable.tsx\`, create a helper \`scoreBadgeClass(score)\` that returns a Tailwind class string based on the score range
+- Render the badge in the table row next to the role name
+- Run \`npm test\` to confirm no schema tests break
+
+---
+
+### Task 4: Export Applications to CSV
+
+**Difficulty:** Medium
+
+**Why it's a good first task:** Introduces file I/O and data serialization while staying entirely in the browser (no API changes). You will learn how to trigger a file download from JavaScript.
+
+**Files to touch:**
+- \`src/lib/storage.ts\` — Add an \`exportToCSV(apps)\` helper function
+- \`src/app/tracker/page.tsx\` — Add an "Export CSV" button that calls the helper and triggers download
+
+**What to do:**
+- In \`storage.ts\`, write \`exportToCSV(apps: Application[]): string\` that returns a CSV string with headers: \`company,role,date_applied,cv_version,status\`
+- In \`tracker/page.tsx\`, add a button that calls \`exportToCSV(applications)\`, wraps the result in a \`Blob\`, and creates an \`<a>\` element with \`download="applications.csv"\` to trigger download
+- Test by adding a few tracker entries and clicking Export — open the downloaded file in a spreadsheet app
+- Run \`npm test\` to verify no existing storage tests regress
+
+---
+
+### Task 5: Show Retry Attempt Feedback During Analysis
+
+**Difficulty:** Medium
+
+**Why it's a good first task:** Connects frontend state to backend retry behavior. You will learn how the retry loop in \`src/lib/gemini.ts\` works (\`callGeminiWithRetry\` — 3 attempts, backoff 1 s / 2 s / 4 s) and how to surface async progress in the UI.
+
+**Files to touch:**
+- \`src/lib/gemini.ts\` — Expose attempt count from \`callGeminiWithRetry()\`
+- \`src/app/api/analyze/route.ts\` — Include attempt count in the response body
+- \`src/app/page.tsx\` — Update loading state to show attempt number
+
+**What to do:**
+- Modify \`callGeminiWithRetry()\` in \`gemini.ts\` to return \`{ result: LLMAnalysis, attempts: number }\` instead of bare \`LLMAnalysis\`
+- Update \`analyzeWithGemini()\` and \`route.ts\` to propagate \`attempts\` and include it in the JSON response body
+- In \`page.tsx\`, while loading, display "Analyzing… (Attempt 1/3)" updating as the response arrives
+- Update \`gemini.test.ts\` to assert on the returned \`attempts\` count
+- Run \`npm test\` to ensure the retry and fallback tests still pass
+
+---
+
+## How to Pick Your First Task
+
+| Preference | Task |
+|---|---|
+| I want to learn Zod schemas and data modeling | Task 1 or Task 3 |
+| I care about UX and error states | Task 2 |
+| I want to do something useful and self-contained | Task 4 |
+| I want to understand the AI / async flow | Task 5 |
+| I have never contributed to this codebase before | Task 1 (smallest blast radius) |
+
+**General workflow:**
+
+1. \`git checkout -b task/<n>-short-description\`
+2. Make the changes described in "What to do"
+3. \`npm test\` — all 31 tests must still pass (add new tests if you add new logic)
+4. \`npm run dev\` — smoke-test the feature manually in the browser
+5. \`git commit -m "Task <n>: <description>"\`
+6. Push your branch and open a pull request
+`;
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rendering
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Configure marked
+marked.setOptions({ gfm: true, breaks: false });
+
+// Configure Mermaid with a dark theme
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark',
+  darkMode: true,
+  themeVariables: {
+    primaryColor: '#1c2128',
+    primaryTextColor: '#e6edf3',
+    primaryBorderColor: '#58a6ff',
+    lineColor: '#8b949e',
+    secondaryColor: '#161b22',
+    tertiaryColor: '#0d1117',
+    background: '#0d1117',
+    mainBkg: '#1c2128',
+    nodeBorder: '#30363d',
+    clusterBkg: '#161b22',
+    titleColor: '#e6edf3',
+    edgeLabelBackground: '#161b22',
+    actorBkg: '#1c2128',
+    actorBorder: '#58a6ff',
+    actorTextColor: '#e6edf3',
+    actorLineColor: '#8b949e',
+    signalColor: '#8b949e',
+    signalTextColor: '#e6edf3',
+    labelBoxBkgColor: '#1c2128',
+    labelBoxBorderColor: '#30363d',
+    labelTextColor: '#e6edf3',
+    loopTextColor: '#e6edf3',
+    noteBorderColor: '#30363d',
+    noteBkgColor: '#161b22',
+    noteTextColor: '#e6edf3',
+    activationBorderColor: '#58a6ff',
+    activationBkgColor: '#1c2128',
+    sequenceNumberColor: '#58a6ff',
+    classText: '#e6edf3',
+  },
+  sequence: { actorMargin: 60, boxMargin: 10, mirrorActors: false },
+  fontFamily: '-apple-system, "Segoe UI", system-ui, sans-serif',
+});
+
+/**
+ * Render markdown to HTML, extracting ```mermaid blocks and
+ * replacing them with interactive Mermaid wrappers.
+ */
+function renderMarkdown(mdText) {
+  // Split on ```mermaid ... ``` fences
+  const parts = mdText.split(/(```mermaid[\s\S]*?```)/g);
+  let mermaidIndex = 0;
+  const mermaidDefs = [];
+
+  const processedParts = parts.map(part => {
+    const match = part.match(/^```mermaid\n([\s\S]*?)\n?```$/);
+    if (match) {
+      const id = 'mermaid-' + (mermaidIndex++);
+      mermaidDefs.push({ id, def: match[1] });
+      return `<div class="mermaid-wrapper"><div class="mermaid" id="${id}"></div></div>`;
+    }
+    return marked.parse(part);
+  });
+
+  return { html: processedParts.join(''), mermaidDefs };
+}
+
+// Map tab keys → panel ids and doc keys
+const TAB_MAP = {
+  architecture: { panelId: 'panel-architecture', docKey: 'architecture' },
+  diagrams:     { panelId: 'panel-diagrams',     docKey: 'diagrams'     },
+  setup:        { panelId: 'panel-setup',         docKey: 'setup'        },
+  tasks:        { panelId: 'panel-tasks',         docKey: 'tasks'        },
+};
+
+// Track which tabs have been rendered (lazy)
+const rendered = {};
+
+async function renderTab(tabKey) {
+  if (rendered[tabKey]) return;
+  rendered[tabKey] = true;
+
+  const { panelId, docKey } = TAB_MAP[tabKey];
+  const panel = document.getElementById(panelId);
+  const { html, mermaidDefs } = renderMarkdown(DOCS[docKey]);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'md';
+  wrapper.innerHTML = html;
+  panel.appendChild(wrapper);
+
+  // Render any Mermaid diagrams
+  if (mermaidDefs.length > 0) {
+    for (const { id, def } of mermaidDefs) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      try {
+        const { svg } = await mermaid.render('m-' + id, def);
+        el.innerHTML = svg;
+      } catch (err) {
+        el.innerHTML = `<pre style="color:#f85149;font-size:.8rem;text-align:left">Mermaid render error:\n${err.message}</pre>`;
+      }
+    }
+  }
+}
+
+// ─── Tab switching ────────────────────────────────────────────────────────────
+
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+function activateTab(tabKey) {
+  tabBtns.forEach(btn => {
+    const active = btn.dataset.tab === tabKey;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active);
+  });
+  tabPanels.forEach(panel => {
+    panel.classList.toggle('active', panel.id === TAB_MAP[tabKey].panelId);
+  });
+  renderTab(tabKey);
+  // Update URL hash without scrolling
+  history.replaceState(null, '', '#' + tabKey);
+}
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+});
+
+// ─── Initial render ───────────────────────────────────────────────────────────
+
+// Check URL hash for deep-link
+const hash = location.hash.slice(1);
+const initialTab = TAB_MAP[hash] ? hash : 'architecture';
+activateTab(initialTab);
+</script>
+</body>
+</html>
